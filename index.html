@@ -5,31 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bryan's Classroom</title>
     <style>
-        /* [总结1: 基础外观] 设置背景颜色、字体，并让页面最大宽度为 800px 且居中 */
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 20px; color: #333; max-width: 800px; margin: 0 auto; }
+        /* [总结1: 基础外观] */
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 20px; color: #333; max-width: 800px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
         h1 { text-align: center; color: #1c1e21; }
         
-        /* [总结2: 蓝色科目条] 设置背景色、圆角，并用 flex 让文字和图标分居左右 */
+        /* [总结2: 蓝色科目条] */
         .subject-header { background: #007aff; color: white; padding: 15px; border-radius: 10px; margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         
-        /* [总结3: 灰色章节条] 设置边距和圆角，区分不同的章节 */
+        /* [总结3: 灰色章节条] */
         .theme-section { margin: 10px 0 0 15px; font-weight: bold; color: #4b4f56; cursor: pointer; background: #e4e6eb; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; }
         
-        /* [总结4: 白色卡片] 题目的底色。border-left 加了一条深蓝色的线，让它看起来更专业 */
+        /* [总结4: 白色卡片] */
         .topic-card { background: white; border-radius: 12px; padding: 15px; margin: 10px 0 10px 30px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #007aff; }
         
-        /* [总结5: 题目详情区] 淡淡的黄色背景，让学生注意力集中在题目文字上 */
+        /* [总结5: 题目详情区] */
         .quiz-area { background: #fffbe6; padding: 15px; border-radius: 8px; border: 1px solid #ffe58f; margin-top: 10px; cursor: default; }
         
-        /* [总结6: 嵌入容器] 关键！通过 padding-bottom: 65% 确保图片/视频框在不同屏幕上比例都不乱 */
+        /* [总结6: 嵌入容器] */
         .embed-container { position: relative; width: 100%; padding-bottom: 65%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden; background: #eee; border: 1px solid #ddd; }
         .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* [总结7: 绿色按钮] 设置显眼的绿色，加粗字体 */
+        /* [总结7: 绿色按钮] */
         .btn-lesson { background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
         
-        /* [总结8: 隐藏工具] 只有带有 hidden 类的元素才会被隐藏 */
+        /* [总结8: 隐藏工具] */
         .hidden { display: none; }
+
+        /* [总结9: 底部版权水印] */
+        .watermark { text-align: center; margin-top: auto; padding: 40px 0 20px 0; color: #888; font-size: 11px; }
     </style>
 </head>
 <body>
@@ -37,10 +40,14 @@
     <h1>📚 Bryan's Classroom</h1>
     <div id="course-menu"></div>
 
+    <div class="watermark">
+        <strong>The Usage Rights Belong To Bryan And Cannot Be Shared Without Permission</strong>
+    </div>
+
     <script>
         /**
          * [代码解释：数据仓库]
-         * 这里是你以后唯一需要修改的地方。
+         * 如果没有 ID，请务必保持为 "" 引号。
          */
         const schoolData = [
             {
@@ -50,19 +57,18 @@
                         name: "F4 C1: FUNGSI", 
                         topics: [
                             { 
-                                id: "f4_math_01_q1",                      // 题目身份证号（不能重复）
-                                title: "1.1 Fungsi",                // 题目小标题
-                                quiz: "", // 题目文字说明
-                                quizImageId: "",           // Google 图片 ID
-                                driveId: ""                // Google 视频 ID
+                                id: "f4_math_01_q1",
+                                title: "1.1 Fungsi (有图有视频示例)",
+                                quiz: "请观察下方函数图表并作答。", 
+                                quizImageId: "15g5oMLcKArufRJgHQXL9-YyQVHbHwIKv", 
+                                driveId: "19S9RttOWPsfMWTcVW0q5mwX4UsE9zkIW"
                             },
-
                             { 
-                                id: "f4_math_01_q2",                      // 题目身份证号（不能重复）
-                                title: "1.1 Fungsi",                // 题目小标题
-                                quiz: "", // 题目文字说明
-                                quizImageId: "",           // Google 图片 ID
-                                driveId: ""                // Google 视频 ID
+                                id: "f4_math_01_q2",
+                                title: "1.1 Fungsi (纯文字示例)",
+                                quiz: "当 f(x) = 2x + 1 时，求 f(3) 的值。", 
+                                quizImageId: "", 
+                                driveId: ""
                             }
                         ]
                     }
@@ -72,22 +78,19 @@
 
         /**
          * [代码解释：渲染大厨]
-         * 负责根据数据生成网页 HTML 代码。
          */
         function renderMenu() {
             const menu = document.getElementById('course-menu');
             let html = '';
 
             schoolData.forEach((sub, sIndex) => {
-                // 拼接科目 HTML
                 html += `
                     <div class="subject-header" onclick="toggleSection('sub-${sIndex}')">
-                        <span>📂 ${sub.name}</span> <span>▾</span>
+                        <span>📂 ${sub.name}</span> <span>展开/收起 ▾</span>
                     </div>
                     <div id="sub-${sIndex}" class="collapsible-content hidden">`;
                 
                 sub.themes.forEach((theme, tIndex) => {
-                    // 拼接章节 HTML
                     html += `
                         <div class="theme-section" onclick="toggleSection('theme-${sIndex}-${tIndex}')">
                             📖 ${theme.name} <span>▾</span>
@@ -95,27 +98,31 @@
                         <div id="theme-${sIndex}-${tIndex}" class="collapsible-content hidden">`;
                     
                     theme.topics.forEach(topic => {
-                        // [逻辑点] 如果填了图片 ID，就生成 iframe；没填就保持为空白
+                        // 【判断逻辑】图片嵌入：仅当有 quizImageId 时显示
                         const imageEmbed = topic.quizImageId 
                             ? `<div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.quizImageId}/preview"></iframe></div>` 
                             : '';
 
-                        // 拼接题目卡片 HTML
+                        // 【判断逻辑】视频部分：仅当有 driveId 时显示按钮和视频框
+                        const videoSection = topic.driveId
+                            ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 查看教学视频</button>
+                               <div id="video-zone-${topic.id}" class="hidden">
+                                   <div class="embed-container">
+                                       <iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe>
+                                   </div>
+                               </div>`
+                            : '';
+
                         html += `
                             <div class="topic-card">
                                 <div onclick="toggleSection('quiz-${topic.id}')" style="font-weight:bold; display:flex; justify-content:space-between;">
-                                    <span>📄 ${topic.title}</span> <span>展开 ▾</span>
+                                    <span>📄 ${topic.title}</span> <span>展开题目 ▾</span>
                                 </div>
                                 <div id="quiz-${topic.id}" class="hidden">
                                     <div class="quiz-area" onclick="event.stopPropagation()">
                                         <p><strong>题目：</strong><br>${topic.quiz}</p>
                                         ${imageEmbed}
-                                        <button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 查看教学视频</button>
-                                        <div id="video-zone-${topic.id}" class="hidden">
-                                            <div class="embed-container">
-                                                <iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe>
-                                            </div>
-                                        </div>
+                                        ${videoSection}
                                     </div>
                                 </div>
                             </div>`;
@@ -124,26 +131,22 @@
                 });
                 html += `</div>`;
             });
-            // 将拼好的 HTML 一次性塞进页面
             menu.innerHTML = html;
         }
 
         /**
          * [代码解释：交互逻辑]
          */
-        // 切换隐藏/显示的开关
         function toggleSection(id) {
             const el = document.getElementById(id);
             if (el) el.classList.toggle('hidden');
         }
 
-        // 专门控制视频区显示/隐藏的开关
         function toggleVideo(topicId) {
             const zone = document.getElementById('video-zone-' + topicId);
             if (zone) zone.classList.toggle('hidden');
         }
 
-        // 最后启动渲染
         renderMenu();
     </script>
 </body>
