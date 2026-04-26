@@ -4,122 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bryan's Classroom</title>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
-        /* [总结1: 基础外观] 引入渐变背景以增强玻璃通透感 */
+        /* 基础背景：使用 135度角蓝灰色渐变，固定背景不随滚动条移动 */
         body { 
             font-family: -apple-system, sans-serif; 
             background: linear-gradient(135deg, #f0f2f5 0%, #dbeafe 100%); 
             background-attachment: fixed;
-            padding: 20px; 
-            color: #333; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
+            padding: 20px; color: #333; max-width: 850px; margin: 0 auto; 
+            min-height: 100vh; display: flex; flex-direction: column; 
         }
-        h1 { text-align: center; color: #1c1e21; font-weight: 800; }
+        h1 { text-align: center; color: #1c1e21; font-weight: 800; margin-bottom: 30px; }
         
-        /* [玻璃效果通用类] */
+        /* 玻璃质感类：半透明背景 + 模糊滤镜 + 细微边框 */
         .glass-panel {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
-        /* [总结2: Level 1 大标题 - 蓝色科目条] */
-        .subject-header { 
-            background: rgba(0, 122, 255, 0.8); 
-            color: white; padding: 15px; border-radius: 12px; margin-top: 20px; 
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,122,255,0.2);
+        /* Level 1: 科目条 - 鲜艳蓝色，作为第一层入口 */
+        .lv1-header { 
+            background: rgba(0, 122, 255, 0.85); color: white; padding: 16px; border-radius: 14px; 
+            margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; font-size: 1.1em;
         }
         
-        /* [总结3: Level 2 副标题 - 灰色章节条] */
-        .theme-section { 
-            margin: 10px 0 0 15px; font-weight: bold; color: #4b4f56; 
-            cursor: pointer; background: rgba(228, 230, 235, 0.7); 
-            padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; 
-            border-left: 4px solid #007aff;
+        /* Level 2: 单元条 - 灰色质感，左侧蓝色粗边框区分 */
+        .lv2-section { 
+            margin: 10px 0 0 15px; font-weight: bold; color: #4b4f56; cursor: pointer; 
+            background: rgba(228, 230, 235, 0.75); padding: 13px; border-radius: 12px; 
+            display: flex; justify-content: space-between; border-left: 5px solid #007aff;
         }
 
-        /* [新增: Level 3 子标题 - 浅色导航条] */
-        .sub-topic-header {
-            margin: 8px 0 0 30px; font-weight: 600; color: #555;
-            cursor: pointer; background: rgba(255, 255, 255, 0.4);
-            padding: 10px; border-radius: 8px; display: flex; justify-content: space-between;
-            border: 1px dashed rgba(0, 122, 255, 0.2);
+        /* Level 3: 章节条 - 纯白半透明，带极细浅蓝边框 */
+        .lv3-header {
+            margin: 8px 0 0 30px; font-weight: 600; color: #555; cursor: pointer; 
+            background: rgba(255, 255, 255, 0.5); padding: 11px; border-radius: 10px; 
+            display: flex; justify-content: space-between; border: 1px solid rgba(0, 122, 255, 0.1);
+        }
+
+        /* Level 4: 知识点条 - 进一步缩进，去掉虚线改用柔和实线 */
+        .lv4-header {
+            margin: 6px 0 0 45px; font-weight: 500; color: #666; cursor: pointer; 
+            background: rgba(255, 255, 255, 0.35); padding: 9px 12px; border-radius: 8px; 
+            display: flex; justify-content: space-between; border-left: 3px solid rgba(0, 122, 255, 0.2);
         }
         
-        /* [总结4: Level 4 题目卡片] */
-        .topic-card { 
-            border-radius: 12px; padding: 15px; margin: 10px 0 10px 45px; 
-            cursor: pointer; border-left: 5px solid #28a745; 
+        /* Level 5: 最终题目卡片 - 使用森林绿左边框，增加悬浮移动效果 */
+        .lv5-card { 
+            border-radius: 12px; padding: 15px; margin: 8px 0 10px 60px; 
+            cursor: pointer; border-left: 5px solid #2d6a4f; 
+            transition: all 0.3s ease;
+        }
+        .lv5-card:hover { transform: translateX(3px); background: rgba(255, 255, 255, 0.8); }
+        
+        /* 题目内容展示区：纯白背景，让数学公式更清晰 */
+        .quiz-area { 
+            background: rgba(255, 255, 255, 0.9); padding: 18px; border-radius: 10px; 
+            border: 1px solid #d8e2dc; margin-top: 10px; cursor: default;
         }
         
-        /* [总结5: 题目详情区] */
-        .quiz-area { background: rgba(255, 251, 230, 0.7); padding: 15px; border-radius: 8px; border: 1px solid #ffe58f; margin-top: 10px; cursor: default; }
-        
-        /* [总结6: 嵌入容器] */
-        .embed-container { position: relative; width: 100%; padding-bottom: 65%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); }
+        /* 媒体容器：固定比例，背景设为黑色防止视频加载前闪烁 */
+        .embed-container { position: relative; width: 100%; padding-bottom: 65%; height: 0; margin: 12px 0; border-radius: 10px; overflow: hidden; background: #000; }
         .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* [总结7: 绿色按钮] */
-        .btn-lesson { background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; transition: 0.3s; }
-        .btn-lesson:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        /* 教学视频按钮：森林绿配色，带点击反馈阴影 */
+        .btn-lesson { 
+            background: #2d6a4f; color: white; border: none; padding: 13px 20px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 12px; 
+            width: 100%; transition: 0.3s ease; box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
+        }
+        .btn-lesson:hover { background: #1b4332; transform: scale(1.01); }
         
-        /* [总结8: 隐藏工具] */
-        .hidden { display: none; }
-
-        /* [总结9: 底部版权水印] */
+        .hidden { display: none; } /* 隐藏元素的标准类 */
         .watermark { text-align: center; margin-top: auto; padding: 40px 0 20px 0; color: #888; font-size: 11px; }
     </style>
 </head>
 <body>
 
     <h1>📚 Bryan's Classroom</h1>
-    <div id="course-menu"></div>
-
-    <div class="watermark">
+    <div id="course-menu"></div> <div class="watermark">
         <strong>The Usage Rights Belong To Bryan And Cannot Be Shared Without Permission</strong>
     </div>
 
     <script>
         /**
-         * [代码解释：四层数据仓库]
-         * 结构：Subject > Theme > SubTopic > Topic
+         * [数据仓库]：五层嵌套结构
+         * 示例展示了如何插入数学公式 \( ... \)
          */
         const schoolData = [
             {
-                name: "F4 ADDITIONAL MATHEMATICS", // Level 1 大标题
-                themes: [
+                name: "F4 ADDITIONAL MATHEMATICS", 
+                units: [
                     {
-                        name: "F4 C1: FUNGSI", // Level 2 副标题
-                        subTopics: [
+                        name: "UNIT 1: FUNGSI", 
+                        sections: [
                             {
-                                name: "1.1 Concept of Functions", // Level 3 子标题
-                                topics: [
-                                    { 
-                                        id: "f4_math_01_q1", // Level 4 小章节/题目
-                                        title: "Question 1",
-                                        quiz: "", 
-                                        quizImageId: "", 
-                                        driveId: ""
-                                    }
-                                ]
-                            },
-
-                            {
-                                name: "1.1 Concept of Functions", // Level 3 子标题
-                                topics: [
-                                    { 
-                                        id: "f4_math_01_q2", // Level 4 小章节/题目
-                                        title: "Question 2",
-                                        quiz: "", 
-                                        quizImageId: "", 
-                                        driveId: ""
+                                name: "1.1 Concept of Functions", 
+                                points: [
+                                    {
+                                        name: "Lesson 1: Quadratic Functions", 
+                                        topics: [
+                                            { 
+                                                id: "math_001", 
+                                                title: "Formula Testing",
+                                                quiz: "Solve the equation: \( f(x) = ax^2 + bx + c \). The roots are given by: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$", 
+                                                quizImageId: "", 
+                                                driveId: ""
+                                            }
+                                        ]
                                     }
                                 ]
                             }
@@ -130,87 +129,71 @@
         ];
 
         /**
-         * [代码解释：渲染大厨 - 已重构支持四层循环]
+         * [渲染核心]：通过五层循环拼接 HTML
          */
         function renderMenu() {
             const menu = document.getElementById('course-menu');
             let html = '';
 
-            schoolData.forEach((sub, sIndex) => {
-                // Level 1: Subject
-                html += `
-                    <div class="subject-header" onclick="toggleSection('sub-${sIndex}')">
-                        <span>📂 ${sub.name}</span> <span>Expand/Collapse ▾</span>
-                    </div>
-                    <div id="sub-${sIndex}" class="hidden">`;
+            schoolData.forEach((sub, i1) => {
+                html += `<div class="lv1-header" onclick="toggleSection('lv1-${i1}')"><span>📂 ${sub.name}</span> <span>▾</span></div><div id="lv1-${i1}" class="hidden">`;
                 
-                sub.themes.forEach((theme, tIndex) => {
-                    // Level 2: Theme
-                    html += `
-                        <div class="theme-section glass-panel" onclick="toggleSection('theme-${sIndex}-${tIndex}')">
-                            📖 ${theme.name} <span>▾</span>
-                        </div>
-                        <div id="theme-${sIndex}-${tIndex}" class="hidden">`;
+                sub.units.forEach((unit, i2) => {
+                    html += `<div class="lv2-section glass-panel" onclick="toggleSection('lv2-${i1}-${i2}')"><span>📖 ${unit.name}</span> <span>▾</span></div><div id="lv2-${i1}-${i2}" class="hidden">`;
                     
-                    theme.subTopics.forEach((subTopic, stIndex) => {
-                        // Level 3: SubTopic (新增层级)
-                        html += `
-                            <div class="sub-topic-header glass-panel" onclick="toggleSection('st-${sIndex}-${tIndex}-${stIndex}')">
-                                📑 ${subTopic.name} <span>▾</span>
-                            </div>
-                            <div id="st-${sIndex}-${tIndex}-${stIndex}" class="hidden">`;
+                    unit.sections.forEach((sec, i3) => {
+                        html += `<div class="lv3-header glass-panel" onclick="toggleSection('lv3-${i1}-${i2}-${i3}')"><span>📑 ${sec.name}</span> <span>▾</span></div><div id="lv3-${i1}-${i2}-${i3}" class="hidden">`;
 
-                        subTopic.topics.forEach(topic => {
-                            // Level 4: Topic / Question
-                            const imageEmbed = topic.quizImageId 
-                                ? `<div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.quizImageId}/preview"></iframe></div>` 
-                                : '';
+                        sec.points.forEach((point, i4) => {
+                            html += `<div class="lv4-header glass-panel" onclick="toggleSection('lv4-${i1}-${i2}-${i3}-${i4}')"><span>🔹 ${point.name}</span> <span>▾</span></div><div id="lv4-${i1}-${i2}-${i3}-${i4}" class="hidden">`;
 
-                            const videoSection = topic.driveId
-                                ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 Watch The Lesson</button>
-                                   <div id="video-zone-${topic.id}" class="hidden">
-                                       <div class="embed-container">
-                                           <iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe>
-                                       </div>
-                                   </div>`
-                                : '';
+                            point.topics.forEach(topic => {
+                                // 自动判断是否显示图片/视频
+                                const img = topic.quizImageId ? `<div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.quizImageId}/preview"></iframe></div>` : '';
+                                const vid = topic.driveId ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 Watch Video</button><div id="video-zone-${topic.id}" class="hidden"><div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe></div></div>` : '';
 
-                            html += `
-                                <div class="topic-card glass-panel">
-                                    <div onclick="toggleSection('quiz-${topic.id}')" style="font-weight:bold; display:flex; justify-content:space-between;">
-                                        <span>📄 ${topic.title}</span> <span>Show Details ▾</span>
-                                    </div>
-                                    <div id="quiz-${topic.id}" class="hidden">
-                                        <div class="quiz-area" onclick="event.stopPropagation()">
-                                            <p><strong>Content：</strong><br>${topic.quiz}</p>
-                                            ${imageEmbed}
-                                            ${videoSection}
+                                html += `
+                                    <div class="lv5-card glass-panel">
+                                        <div onclick="toggleSection('quiz-${topic.id}')" style="font-weight:bold; display:flex; justify-content:space-between; color:#2d6a4f;">
+                                            <span>📝 ${topic.title}</span> <span>Details ▾</span>
                                         </div>
-                                    </div>
-                                </div>`;
+                                        <div id="quiz-${topic.id}" class="hidden">
+                                            <div class="quiz-area" onclick="event.stopPropagation()">
+                                                <p><strong>Content：</strong><br>${topic.quiz}</p>
+                                                ${img} ${vid}
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
+                            html += `</div>`; // 闭合 L4
                         });
-                        html += `</div>`; // 关闭 SubTopic
+                        html += `</div>`; // 闭合 L3
                     });
-                    html += `</div>`; // 关闭 Theme
+                    html += `</div>`; // 闭合 L2
                 });
-                html += `</div>`; // 关闭 Subject
+                html += `</div>`; // 闭合 L1
             });
             menu.innerHTML = html;
+
+            // 渲染完毕后，强制 MathJax 重新扫描并排版公式
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
         }
 
-        /**
-         * [代码解释：交互逻辑]
-         */
+        // 开关函数：切换隐藏/显示类
         function toggleSection(id) {
             const el = document.getElementById(id);
             if (el) el.classList.toggle('hidden');
         }
 
+        // 视频专用开关函数
         function toggleVideo(topicId) {
             const zone = document.getElementById('video-zone-' + topicId);
             if (zone) zone.classList.toggle('hidden');
         }
 
+        // 启动渲染程序
         renderMenu();
     </script>
 </body>
