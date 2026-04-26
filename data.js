@@ -29,3 +29,6 @@ const schoolData = [
         ]
     }
 ];
+
+window.schoolData = schoolData;
+
