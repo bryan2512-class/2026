@@ -58,15 +58,15 @@
                         topics: [
                             { 
                                 id: "f4_math_01_q1",
-                                title: "1.1 Fungsi (有图有视频示例)",
-                                quiz: "请观察下方函数图表并作答。", 
-                                quizImageId: "15g5oMLcKArufRJgHQXL9-YyQVHbHwIKv", 
-                                driveId: "19S9RttOWPsfMWTcVW0q5mwX4UsE9zkIW"
+                                title: "1.1 Fungsi",
+                                quiz: "", 
+                                quizImageId: "", 
+                                driveId: ""
                             },
                             { 
                                 id: "f4_math_01_q2",
-                                title: "1.1 Fungsi (纯文字示例)",
-                                quiz: "当 f(x) = 2x + 1 时，求 f(3) 的值。", 
+                                title: "",
+                                quiz: "", 
                                 quizImageId: "", 
                                 driveId: ""
                             }
@@ -86,7 +86,7 @@
             schoolData.forEach((sub, sIndex) => {
                 html += `
                     <div class="subject-header" onclick="toggleSection('sub-${sIndex}')">
-                        <span>📂 ${sub.name}</span> <span>展开/收起 ▾</span>
+                        <span>📂 ${sub.name}</span> <span>Expand/Collapse ▾</span>
                     </div>
                     <div id="sub-${sIndex}" class="collapsible-content hidden">`;
                 
@@ -105,7 +105,7 @@
 
                         // 【判断逻辑】视频部分：仅当有 driveId 时显示按钮和视频框
                         const videoSection = topic.driveId
-                            ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 查看教学视频</button>
+                            ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 Watch The Lesson</button>
                                <div id="video-zone-${topic.id}" class="hidden">
                                    <div class="embed-container">
                                        <iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe>
@@ -116,11 +116,11 @@
                         html += `
                             <div class="topic-card">
                                 <div onclick="toggleSection('quiz-${topic.id}')" style="font-weight:bold; display:flex; justify-content:space-between;">
-                                    <span>📄 ${topic.title}</span> <span>展开题目 ▾</span>
+                                    <span>📄 ${topic.title}</span> <span>Show Question ▾</span>
                                 </div>
                                 <div id="quiz-${topic.id}" class="hidden">
                                     <div class="quiz-area" onclick="event.stopPropagation()">
-                                        <p><strong>题目：</strong><br>${topic.quiz}</p>
+                                        <p><strong>Question：</strong><br>${topic.quiz}</p>
                                         ${imageEmbed}
                                         ${videoSection}
                                     </div>
