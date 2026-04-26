@@ -11,80 +11,85 @@
     <style>
         /* [页面基础样式] */
         body { 
-            font-family: -apple-system, sans-serif; /* 使用系统默认无衬线字体 */
-            background: linear-gradient(135deg, #f0f2f5 0%, #dbeafe 100%); /* 135度蓝灰色渐变背景 */
+            font-family: -apple-system, sans-serif; /* 使用简洁的系统默认字体 */
+            background: linear-gradient(135deg, #f0f2f5 0%, #dbeafe 100%); /* 135度蓝灰色柔和渐变背景 */
             background-attachment: fixed; /* 背景固定，不随页面滚动 */
             padding: 20px; /* 页面四周留白 */
             color: #333; /* 主文字颜色 */
-            max-width: 850px; /* 网页最大宽度限制 */
+            max-width: 850px; /* 网页最大宽度，防止在大屏上太散 */
             margin: 0 auto; /* 页面水平居中 */
             min-height: 100vh; /* 页面高度至少占满整个屏幕 */
             display: flex; /* 开启弹性布局 */
             flex-direction: column; /* 内容垂直排列 */
         }
 
-        h1 { text-align: center; color: #1c1e21; font-weight: 800; margin-bottom: 30px; } /* 大标题样式 */
+        h1 { text-align: center; color: #1c1e21; font-weight: 800; margin-bottom: 30px; } /* 顶部大标题样式 */
         
-        /* [玻璃质感面板基础样式] */
+        /* [玻璃质感面板样式] */
         .glass-panel {
             background: rgba(255, 255, 255, 0.6); /* 半透明白色背景 */
-            backdrop-filter: blur(12px); /* 背景高斯模糊特效 */
-            -webkit-backdrop-filter: blur(12px); /* 兼容苹果浏览器 */
-            border: 1px solid rgba(255, 255, 255, 0.4); /* 面板细白边框 */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* 柔和的阴影 */
+            backdrop-filter: blur(12px); /* 背景高斯模糊特效（核心特效） */
+            -webkit-backdrop-filter: blur(12px); /* 兼容 iPad/iPhone 浏览器 */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* 面板细白边框，增加高级感 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* 非常淡的阴影 */
         }
 
-        /* [各层级按钮与条目样式] */
+        /* [各层级按钮样式] */
+        /* 第一层：大科目蓝色块 */
         .lv1-header { 
             background: rgba(0, 122, 255, 0.85); color: white; padding: 16px; border-radius: 14px; 
             margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             font-weight: bold; font-size: 1.1em;
         }
 
+        /* 第二层：单元灰色块 */
         .lv2-section { 
             margin: 10px 0 0 15px; font-weight: bold; color: #4b4f56; cursor: pointer; 
             background: rgba(228, 230, 235, 0.75); padding: 13px; border-radius: 12px; 
             display: flex; justify-content: space-between; border-left: 5px solid #007aff;
         }
 
+        /* 第三层：章节白色半透明 */
         .lv3-header {
             margin: 8px 0 0 30px; font-weight: 600; color: #555; cursor: pointer; 
             background: rgba(255, 255, 255, 0.5); padding: 11px; border-radius: 10px; 
             display: flex; justify-content: space-between; border: 1px solid rgba(0, 122, 255, 0.1);
         }
 
+        /* 第四层：知识点 Lesson */
         .lv4-header {
             margin: 6px 0 0 45px; font-weight: 500; color: #666; cursor: pointer; 
             background: rgba(255, 255, 255, 0.35); padding: 9px 12px; border-radius: 8px; 
             display: flex; justify-content: space-between; border-left: 3px solid rgba(0, 122, 255, 0.2);
         }
         
+        /* 第五层：题目卡片 */
         .lv5-card { 
             border-radius: 12px; padding: 15px; margin: 8px 0 10px 60px; 
             cursor: pointer; border-left: 5px solid #2d6a4f; /* 莫兰迪深绿色左边框 */
-            transition: all 0.3s ease; /* 悬停过渡动画 */
+            transition: all 0.3s ease; /* 增加悬停时的平滑动画 */
         }
-        .lv5-card:hover { transform: translateX(3px); background: rgba(255, 255, 255, 0.8); } /* 悬停右移特效 */
+        .lv5-card:hover { transform: translateX(3px); background: rgba(255, 255, 255, 0.8); } /* 悬停时轻轻右移 */
         
-        /* [题目详情内容区样式] */
+        /* [题目详情内部区域] */
         .quiz-area { 
             background: rgba(255, 255, 255, 0.9); padding: 18px; border-radius: 10px; 
             border: 1px solid #d8e2dc; margin-top: 10px; cursor: default;
         }
         
-        /* [多媒体容器样式] */
+        /* [多媒体容器：自动适配 16:9 比例] */
         .embed-container { position: relative; width: 100%; padding-bottom: 65%; height: 0; margin: 12px 0; border-radius: 10px; overflow: hidden; background: #000; }
         .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* [通用绿色按钮样式] */
+        /* [通用播放按钮样式] */
         .btn-lesson { 
             background: #2d6a4f; color: white; border: none; padding: 13px 20px; 
             border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 12px; 
             width: 100%; transition: 0.3s ease; box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
         }
         
-        .hidden { display: none; } /* 隐藏元素的工具类 */
-        .watermark { text-align: center; margin-top: auto; padding: 40px 0 20px 0; color: #888; font-size: 11px; } /* 水印样式 */
+        .hidden { display: none; } /* 隐藏类，用于控制折叠 */
+        .watermark { text-align: center; margin-top: auto; padding: 40px 0 20px 0; color: #888; font-size: 11px; } /* 底部版权信息 */
     </style>
 </head>
 <body>
@@ -96,32 +101,38 @@
     <script>
         /**
          * [核心逻辑：菜单渲染引擎]
-         * 该函数负责读取 schoolData 并生成网页内容
+         * 负责把 data.js 里的 schoolData 转换成网页上的按钮和卡片
          */
         function renderMenu() {
-            const menu = document.getElementById('course-menu'); // 获取挂载点
-            if (!window.schoolData) { // 检查 data.js 是否成功加载
-                menu.innerHTML = "<p style='color:red; text-align:center;'>数据加载失败，请检查 data.js 是否存在。</p>";
+            const menu = document.getElementById('course-menu');
+            
+            // 如果 data.js 没加载成功，显示红字提醒
+            if (!window.schoolData) {
+                menu.innerHTML = "<p style='color:red; text-align:center;'>❌ 数据加载失败，请检查 data.js 是否与 index.html 在同一文件夹。</p>";
                 return;
             }
 
-            let html = ''; // 初始化 HTML 存储字符串
+            let html = ''; // 初始化 HTML 存储变量
 
-            window.schoolData.forEach((sub, i1) => { // 循环科目 (L1)
+            // 循环第一层：科目
+            window.schoolData.forEach((sub, i1) => {
                 html += `<div class="lv1-header" onclick="toggleSection('lv1-${i1}')"><span>📂 ${sub.name}</span> <span>▾</span></div><div id="lv1-${i1}" class="hidden">`;
                 
-                sub.units.forEach((unit, i2) => { // 循环单元 (L2)
+                // 循环第二层：单元
+                sub.units.forEach((unit, i2) => {
                     html += `<div class="lv2-section glass-panel" onclick="toggleSection('lv2-${i1}-${i2}')"><span>📖 ${unit.name}</span> <span>▾</span></div><div id="lv2-${i1}-${i2}" class="hidden">`;
                     
-                    unit.sections.forEach((sec, i3) => { // 循环章节 (L3)
+                    // 循环第三层：章节
+                    unit.sections.forEach((sec, i3) => {
                         html += `<div class="lv3-header glass-panel" onclick="toggleSection('lv3-${i1}-${i2}-${i3}')"><span>📑 ${sec.name}</span> <span>▾</span></div><div id="lv3-${i1}-${i2}-${i3}" class="hidden">`;
 
-                        sec.points.forEach((point, i4) => { // 循环知识点 (L4)
-                            // 所有的星星图标在此处统一生成
+                        // 循环第四层：知识点
+                        sec.points.forEach((point, i4) => {
                             html += `<div class="lv4-header glass-panel" onclick="toggleSection('lv4-${i1}-${i2}-${i3}-${i4}')"><span>🌟 ${point.name}</span> <span>▾</span></div><div id="lv4-${i1}-${i2}-${i3}-${i4}" class="hidden">`;
 
-                            point.topics.forEach(topic => { // 循环最终题目 (L5)
-                                // 判断是否有图片和视频 ID
+                            // 循环第五层：题目详情
+                            point.topics.forEach(topic => {
+                                // 检查是否有图片 ID 或视频 ID，如果有才生成对应的 HTML 代码
                                 const img = topic.quizImageId ? `<div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.quizImageId}/preview"></iframe></div>` : ''; 
                                 const vid = topic.driveId ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 Watch Video</button><div id="video-zone-${topic.id}" class="hidden"><div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe></div></div>` : ''; 
 
@@ -138,20 +149,20 @@
                                         </div>
                                     </div>`;
                             });
-                            html += `</div>`; // 关闭 L4 知识点区
+                            html += `</div>`; // 关闭知识点层
                         });
-                        html += `</div>`; // 关闭 L3 章节区
+                        html += `</div>`; // 关闭章节层
                     });
-                    html += `</div>`; // 关闭 L2 单元区
+                    html += `</div>`; // 关闭单元层
                 });
-                html += `</div>`; // 关闭 L1 科目区
+                html += `</div>`; // 关闭科目层
             });
-            menu.innerHTML = html; // 将生成的 HTML 全部填入页面
+            menu.innerHTML = html; // 将拼接好的 HTML 一次性渲染到页面上
         }
 
         /**
-         * [辅助逻辑：公式重绘]
-         * 当内容从隐藏变为显示时，必须通知 MathJax 重新渲染公式
+         * [公式刷新逻辑]
+         * 页面内容展开时，由于公式最初是隐藏的，需要手动让 MathJax 重新渲染一下
          */
         function refreshMath() {
             if (window.MathJax && window.MathJax.typesetPromise) {
@@ -160,8 +171,8 @@
         }
 
         /**
-         * [通用开关函数]
-         * 控制元素的 hidden 类名，实现折叠与展开
+         * [通用开关逻辑]
+         * 点击按钮切换元素的显示 (hidden 类名)
          */
         function toggleSection(id) {
             const el = document.getElementById(id);
@@ -169,14 +180,14 @@
         }
 
         /**
-         * [视频播放器独立开关]
+         * [视频播放专用开关]
          */
         function toggleVideo(topicId) {
             const zone = document.getElementById('video-zone-' + topicId);
             if (zone) zone.classList.toggle('hidden');
         }
 
-        // 页面资源（包括 data.js）全部加载完毕后再开始渲染
+        // 当页面完全加载好（包括 data.js）后再启动渲染
         window.onload = renderMenu;
     </script>
 </body>
