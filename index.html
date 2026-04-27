@@ -65,7 +65,7 @@
         
         /* 第五层：题目卡片 */
         .lv5-card { 
-            border-radius: 12px; padding: 15px; margin: 8px 0 10px 60px; 
+            border-radius: 10px; padding: 10px; margin: 8px 0 10px 60px; 
             cursor: pointer; border-left: 5px solid #2d6a4f; /* 莫兰迪深绿色左边框 */
             transition: all 0.3s ease; /* 增加悬停时的平滑动画 */
         }
@@ -73,7 +73,7 @@
         
         /* [题目详情内部区域] */
         .quiz-area { 
-            background: rgba(255, 255, 255, 0.9); padding: 18px; border-radius: 10px; 
+            background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; 
             border: 1px solid #d8e2dc; margin-top: 10px; cursor: default;
         }
         
@@ -143,7 +143,7 @@
                                         </div>
                                         <div id="quiz-${topic.id}" class="hidden">
                                             <div class="quiz-area" onclick="event.stopPropagation()">
-                                                <p><strong> Content: </strong><br>${topic.quiz}</p>
+                                                <p>${topic.quiz}</p>
                                                 ${img} ${vid}
                                             </div>
                                         </div>
