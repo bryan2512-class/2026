@@ -18,7 +18,7 @@ const schoolData = [
                                 name: "Lesson 1: Pengenalan Fungsi", // 第四层：知识点名称
                                 topics: [
                                     {   
-                                        id: "f4_c1_q1_ch", // 唯一的 ID，不可重复（建议用小写字母+数字）
+                                        id: "f4_am_c1_q1_ch", // 唯一的 ID，不可重复（建议用小写字母+数字）
                                         title: "Apakah Fungsi ?", // 题目小标题
                                         /* 录入 LaTeX 公式金律：
                                            1. 公式包在 $$ $$ 之间
@@ -30,7 +30,7 @@ const schoolData = [
                                         <br><br> 
                                         
                                         <b> Syarat : </b> <br> Satu objek (\\(x\\)) hanya ada satu imej (\\(y\\)) <br><br> 
-                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;"
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
 
                                          <b> Tips: </b> <br>
                                          1. 其实就像一个人 (\\(x\\)) 只可以有一个亲生母亲 (\\(y\\))。<br> &rarr; <b> satu dengan satu </b> <br><br>
@@ -87,7 +87,7 @@ const schoolData = [
                                 name: "Lesson 1: Pengenalan Fungsi", 
                                 topics: [
                                     {   
-                                        id: "f4_c1_q1_my", 
+                                        id: "f4_am_c1_q1_my", 
                                         title: "Apakah Fungsi ?", 
                                          
                                         quiz: `
@@ -112,7 +112,7 @@ const schoolData = [
                                         <b> Tatatanda Fungsi </b>  <br><br> 
                                         
                                         $$f \\colon x \\to x^2 \\quad atau \\quad f(x)= x^2 $$<br><br> 
-                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;"
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
 
                                          <b> Tips: </b> <br>
                                          1. Ingat, \\(x\\) ialah objek，tetapi hasil kira \\(f(x)\\) ialah imej (\\(y\\)). <br><br>
@@ -148,7 +148,97 @@ const schoolData = [
                 ]
             }
         ]
+    },
+
+    {
+        name: "F4 CHEMISTRY", //F4 CHEMISTRY
+        units: [
+            {
+                name: "CHAPTER 2: MATTER AND ATOMIC STRUCTURE ", //CM F4 B2
+                sections: [
+                    {//CM F4 2.1 (CHINESE VERSION)
+                        name: "2.1 Concept Of Matter / Konsep Asas Jirim  (Chinese Version)", //CM F4 C2.1
+                        points: [
+                            {
+                                name: "Lesson 1: State Of Matter / Keadaan Jirim", 
+                                topics: [
+                                    {   
+                                        id: "f4_cm_c2_q1_ch", 
+                                        title: "What Is Matter ? / Apakah Jirim ?", 
+                                    
+                                        quiz: `
+                                        <b> Meaning Of Matter / Maksud Jirim : </b> <br>
+                                        &rarr; <b> Matter </b> is anything that occupies <b> space </b> and has <b> mass </b>. <br>
+                                        &rarr; <b> Jirim </b> ialah sesuatu yang mempunyai <b> jisim </b> dan memenuhi <b> ruang </b>.
+                                        <br><br> 
+                                        
+                                        <b> State Of Matter/ Keadaan Jirim: </b> <br>
+                                        1. Solid / Pepejal <br>
+                                        2. Liquid / Cecair <br>
+                                        3. Gas <br>
+                                        <br><br>
+                                        <b> Type Of Particle / Jenis Zarah: </b> <br>
+                                        1. Atom <br>
+                                        2. Molecule / Molekul <br>
+                                        3. Ion <br>
+
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+
+                                         <b> Tips: </b> <br>
+                                         1. 看题目时小心区分" <b> State Of Matter / Keadaan Jirim </b> "还有" <b> Type Of Particle / Jenis Zarah </b>"。<br><br>
+                                         2. 记得大多数 <b> metal / logam </b>都是 <b> atom </b>。<br><br>
+                                         3.Ion 一定有 <b> positively charged / cas positif </b> 跟 <b> negatively charged / cas negatif </b>。
+
+                                        </div> <br>
+
+                                        <hr style="border: 0.5px solid #000;"/> <br>
+
+                                        <b> Melting Point / Takat Lebur </b>  <br><br> 
+                                        
+                                        <b>Meaning / Definasi : </b> <br>
+                                        &rarr; 
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+
+                                         <b> Tips: </b> <br>
+                                         1. 
+
+                                        </div><br>
+                                        `,
+                                                                          
+                                        quizImageId: "", // 如果有 Google Drive 图片 ID 就写这，没有就留空 ""
+                                        driveId: ""      // 如果有 Google Drive 视频 ID 就写这，没有就留空 ""
+                                    } 
+                                ]
+                            }
+                        ]
+                    },
+
+                    {//CM F4 2.1 (MALAY VERSSION)
+                        name: "2.1 Konsep Asas Jirim (Malay Version)", //CM F4 B2.1
+                        points: [
+                            {
+                                name: "Lesson 1: Keadaan Jirim", 
+                                topics: [
+                                    {   
+                                        id: "f4_cm_c2_q1_my", 
+                                        title: "Apakah Jirim ?", 
+                                         
+                                        quiz: `   
+                                        
+                                        `,
+                                       
+                                        quizImageId: "", // 如果有 Google Drive 图片 ID 就写这，没有就留空 ""
+                                        driveId: ""      // 如果有 Google Drive 视频 ID 就写这，没有就留空 ""
+                                    } 
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
+
 ];
 
 // [核心步骤] 将数据挂载到全局 window 对象，确保 index.html 能够跨文件访问到它
