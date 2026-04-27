@@ -38,20 +38,40 @@ const schoolData = [
 
                                         </div> <br>
 
-                                        <hr style="border: 0.5px solid #000,"/> <br>
+                                        [MAPPING1] <br>
+                                        [MAPPING2] <br>
+                                        
+
+                                       <hr style="border: 0.5px solid #000;"/> <br>
 
                                         <b> Tatatanda Fungsi </b>  <br><br> 
                                         
                                         $$f \\colon x \\to x^2 \\quad atau \\quad f(x)= x^2 $$<br><br> 
-                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;"
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
 
                                          <b> Tips: </b> <br>
                                          1. 记得 \\(x\\) 是我们的objek，但是 \\(f(x)\\) 算到的结果是imej (\\(y\\))。 <br><br>
                                          2.其实 \\(f(x)\\) 代表着我的imej (\\(y\\)) 随着 \\(x\\) 在改变。
 
-                                        </div>
+                                        </div><br>
                                         `,
+                                        mappingData1: {
+                                            x: ["\\(X_1\\)", "\\(X_2\\)"],
+                                            y: ["\\(Y_1\\)","\\(Y_2\\)"],
+                                            xLabel: "Set X",
+                                            yLabel: "Set Y",
+                                            caption: "Fungsi satu kepada satu"
+                                        },
 
+                                        mappingData2:  {
+                                            type: "many-to-one",
+                                            x: ["\\(X_1\\)", "\\(X_2\\)"],
+                                            y: ["\\(Y_1\\)"],
+                                            xLabel: "Set X",
+                                            yLabel: "Set Y",
+                                            caption: "Fungsi banyak kepada satu"
+                                        },
+                                        
                                         quizImageId: "", // 如果有 Google Drive 图片 ID 就写这，没有就留空 ""
                                         driveId: ""      // 如果有 Google Drive 视频 ID 就写这，没有就留空 ""
                                     } 
@@ -76,7 +96,7 @@ const schoolData = [
                                         <br><br> 
                                         
                                         <b> Syarat : </b> <br> Satu objek (\\(x\\)) hanya ada satu imej (\\(y\\)) <br><br> 
-                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;"
+                                        <div style="font-size: 12px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
 
                                          <b> Tips: </b> <br>
                                          1. Macam seorang anak (\\(x\\)) hanya ada seorang ibu kandungnya (\\(y\\)) . <br> &rarr; <b> satu dengan satu </b> <br><br>
@@ -84,7 +104,10 @@ const schoolData = [
 
                                         </div> <br>
 
-                                        <hr style="border: 0.5px solid #000,"/> <br>
+                                        [MAPPING1]<br>
+                                        [MAPPING2]<br>
+
+                                        <hr style="border: 0.5px solid #000;"/> <br>
 
                                         <b> Tatatanda Fungsi </b>  <br><br> 
                                         
@@ -98,6 +121,23 @@ const schoolData = [
                                         </div>
                                         `,
 
+                                        mappingData1: {
+                                            x: ["\\(X_1\\)","\\(X_2\\)"],
+                                            y: ["\\(Y_1\\)","\\(Y_2\\)"],
+                                            xLabel:  "Set X",
+                                            yLabel: "Set Y",
+                                            caption: "Fungsi satu kepada satu",
+                                        },
+
+                                        mappingData2: {
+                                            type: "many-to-one",
+                                            x: ["\\(X_1\\)","\\(X_1\\)"],
+                                            y: ["\\(Y_1\\)"],
+                                            xLabel: "Set X",
+                                            yLabel: "Set Y",
+                                            caption: "Fungsi banyak kepada satu"
+                                        },
+                                       
                                         quizImageId: "", // 如果有 Google Drive 图片 ID 就写这，没有就留空 ""
                                         driveId: ""      // 如果有 Google Drive 视频 ID 就写这，没有就留空 ""
                                     } 
