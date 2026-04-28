@@ -1,269 +1,67 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Bryan's Classroom</title>
-    
-    <script src="data.js"></script> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bryan's Classroom</title>
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* [页面整体布局样式] */
-        body { 
-            font-family: -apple-system, sans-serif; /* 使用系统默认无衬线字体 */
-            background: linear-gradient(135deg, #f0f2f5 0%, #dbeafe 100%); /* 设置渐变背景色 */
-            background-attachment: fixed; /* 背景固定，不随滚动条滚动 */
-            padding: 20px; /* 页面四周留白 */
-            color: #333; /* 主文字颜色 */
-            max-width: 850px; /* 限制网页最大宽度 */
-            margin: 0 auto; /* 居中显示整个容器 */
-            min-height: 100vh; /* 最小高度占满屏幕 */
-            display: flex; /* 使用弹性盒子布局 */
-            flex-direction: column; /* 垂直排列内容 */
+        :root {
+            --sidebar-bg: rgba(255, 255, 255, 0.95); --sidebar-width: 280px;
+            --primary-color: #0050a0; --accent-color: #e0f2fe;
+            --text-color: #1e293b; --glass-border: 1px solid rgba(255, 255, 255, 0.5);
         }
-
-        h1 { text-align: center; color: #1c1e21; font-weight: 800; margin-bottom: 30px; } /* 标题样式 */
-        
-        /* 玻璃拟态面板样式：用于卡片背景 */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.6); /* 半透明白色背景 */
-            backdrop-filter: blur(12px); /* 背景模糊效果 */
-            -webkit-backdrop-filter: blur(12px); /* 兼容苹果浏览器的模糊效果 */
-            border: 1px solid rgba(255, 255, 255, 0.4); /* 细微的白色边框 */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* 轻微的阴影 */
-        }
-
-        /* 菜单层级样式：从 lv1 到 lv4 */
-        .lv1-header { background: rgba(0, 122, 255, 0.85); color: white; padding: 16px; border-radius: 14px; margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.1em; }
-        .lv2-section { margin: 10px 0 0 15px; font-weight: bold; color: #4b4f56; cursor: pointer; background: rgba(228, 230, 235, 0.75); padding: 13px; border-radius: 12px; display: flex; justify-content: space-between; border-left: 5px solid #007aff; }
-        .lv3-header { margin: 8px 0 0 30px; font-weight: 600; color: #555; cursor: pointer; background: rgba(255, 255, 255, 0.5); padding: 11px; border-radius: 10px; display: flex; justify-content: space-between; border: 1px solid rgba(0, 122, 255, 0.1); }
-        .lv4-header { margin: 6px 0 0 45px; font-weight: 500; color: #666; cursor: pointer; background: rgba(255, 255, 255, 0.35); padding: 9px 12px; border-radius: 8px; display: flex; justify-content: space-between; border-left: 3px solid rgba(0, 122, 255, 0.2); }
-        
-        /* 题目卡片样式 */
-        .lv5-card { border-radius: 10px; padding: 10px; margin: 8px 0 10px 60px; cursor: pointer; border-left: 5px solid #2d6a4f; transition: all 0.3s ease; }
-        .lv5-card:hover { transform: translateX(3px); background: rgba(255, 255, 255, 0.8); } /* 鼠标悬停时右移并加亮 */
-        
-        /* 题目内容展示区 */
-        .quiz-area { background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; border: 1px solid #d8e2dc; margin-top: 10px; cursor: default; }
-        
-        /* 嵌入容器：用于固定视频/图片的显示比例 */
-        .embed-container { position: relative; width: 100%; padding-bottom: 65%; height: 0; margin: 12px 0; border-radius: 10px; overflow: hidden; background: #000; }
-        .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        /* 视频播放按钮样式 */
-        .btn-lesson { background: #2d6a4f; color: white; border: none; padding: 13px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 12px; width: 100%; transition: 0.3s ease; box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2); }
-        
-        .hidden { display: none; } /* 隐藏元素的控制类 */
-        .watermark { text-align: center; margin-top: auto; padding: 40px 0 20px 0; color: #888; font-size: 11px; } /* 版权声明样式 */
+        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: var(--text-color); min-height: 100vh; display: flex; overflow-x: hidden; }
+        #sideBar { position: fixed; left: calc(-1 * var(--sidebar-width)); top: 0; height: 100%; width: var(--sidebar-width); background: var(--sidebar-bg); backdrop-filter: blur(20px); border-right: 1px solid rgba(0, 80, 160, 0.1); transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; display: flex; flex-direction: column; box-shadow: 5px 0 25px rgba(0, 0, 0, 0.05); }
+        #sideBar.active { left: 0; }
+        .sidebar-content { padding: 80px 20px 20px 20px; overflow-y: auto; flex: 1; }
+        .main-container { flex: 1; margin-left: 0; transition: margin-left 0.4s; padding: 20px; min-width: 0; }
+        @media (min-width: 1024px) { body.sidebar-open .main-container { margin-left: var(--sidebar-width); } }
+        .topbar { position: sticky; top: 10px; height: 60px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 20px; border-radius: 15px; margin-bottom: 25px; border: var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); z-index: 900; }
+        .menu-toggle { font-size: 24px; cursor: pointer; margin-right: 20px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; transition: 0.2s; color: var(--primary-color); }
+        .menu-toggle:hover { background: var(--accent-color); }
+        .btn { padding: 8px 16px; margin-right: 10px; border-radius: 10px; border: 1px solid rgba(0, 80, 160, 0.1); background: white; color: var(--primary-color); font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn:hover { background: var(--primary-color); color: white; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: rgba(255, 255, 255, 0.7); padding: 30px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: var(--glass-border); text-align: center; }
+        .card:hover { transform: translateY(-5px); background: white; border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.05);}
+        .sb-item { padding: 12px 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: #475569; }
+        .sb-item:hover { background: var(--accent-color); color: var(--primary-color); }
+        .sb-subject-title { font-weight: bold; color: var(--primary-color); margin-top: 15px; padding-left: 10px; border-left: 4px solid var(--primary-color); cursor: pointer;}
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: none; z-index: 950; }
+        body.sidebar-open #overlay { display: block; }
     </style>
 </head>
 <body>
+    <div id="overlay" onclick="closeSidebar()"></div>
+    <div id="sideBar"><div class="sidebar-content" id="sidebarNav"></div></div>
 
-    <h1>📚 Bryan's Classroom</h1> 
-    <div id="course-menu"></div> <div class="watermark">
-        <strong>The Usage Rights Belong To Bryan <br> Cannot Be Shared Without Permission</strong> 
+    <div class="main-container">
+        <div class="topbar">
+            <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+            <button class="btn" onclick="goHome()">🏠 Home</button>
+            <button class="btn" onclick="goBack()">🔙 Back</button>
+            <div id="pathDisplay" style="margin-left: auto; font-size: 14px; color: #64748b;"></div>
+        </div>
+        <div id="app"></div>
     </div>
 
+    <script src="f4_addmath_zh.js"></script>
+    <script src="f4_addmath_my.js"></script>
+    
+    <script src="syllabus.js"></script>
+
+    <script src="engine.js"></script>
+
     <script>
-        /**
-         * [功能：动态渲染主菜单]
-         */
-        function renderMenu() {
-            const menu = document.getElementById('course-menu'); // 获取容器
-            if (!window.schoolData) { // 检查数据是否存在
-                menu.innerHTML = "<p style='color:red; text-align:center;'>❌ 数据加载失败 (请检查 data.js 语法)</p>";
-                return;
-            }
-            let html = ''; // 临时存储生成的 HTML
-            window.schoolData.forEach((sub, i1) => { // 遍历科目
-                html += `<div class="lv1-header" onclick="toggleSection('lv1-${i1}')"><span>📂 ${sub.name}</span> <span>▾</span></div><div id="lv1-${i1}" class="hidden">`;
-                sub.units.forEach((unit, i2) => { // 遍历单元
-                    html += `<div class="lv2-section glass-panel" onclick="toggleSection('lv2-${i1}-${i2}')"><span>📖 ${unit.name}</span> <span>▾</span></div><div id="lv2-${i1}-${i2}" class="hidden">`;
-                    unit.sections.forEach((sec, i3) => { // 遍历章节
-                        html += `<div class="lv3-header glass-panel" onclick="toggleSection('lv3-${i1}-${i2}-${i3}')"><span>📑 ${sec.name}</span> <span>▾</span></div><div id="lv3-${i1}-${i2}-${i3}" class="hidden">`;
-                        sec.points.forEach((point, i4) => { // 遍历知识点
-                            html += `<div class="lv4-header glass-panel" onclick="toggleSection('lv4-${i1}-${i2}-${i3}-${i4}')"><span>🌟 ${point.name}</span> <span>▾</span></div><div id="lv4-${i1}-${i2}-${i3}-${i4}" class="hidden">`;
-                            point.topics.forEach(topic => { // 遍历具体题目
-                                const img = topic.quizImageId ? `<div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.quizImageId}/preview"></iframe></div>` : ''; // 图片判定
-                                const vid = topic.driveId ? `<button class="btn-lesson" onclick="toggleVideo('${topic.id}')">🎬 Watch Video</button><div id="video-zone-${topic.id}" class="hidden"><div class="embed-container"><iframe src="https://drive.google.com/file/d/${topic.driveId}/preview" allowfullscreen></iframe></div></div>` : ''; // 视频判定
-                                
-                                // 处理图形容器判定 (支持双图)
-                                let quizContent = topic.quiz;
-                                if (topic.mappingData1) quizContent = quizContent.replace('[MAPPING1]', `<div id="graph-container-${topic.id}-1"></div>`);
-                                if (topic.mappingData2) quizContent = quizContent.replace('[MAPPING2]', `<div id="graph-container-${topic.id}-2"></div>`);
-                                if (topic.mappingData) quizContent = quizContent.replace('[MAPPING]', `<div id="graph-container-${topic.id}"></div>`);
-                                
-                                html += `
-                                    <div class="lv5-card glass-panel">
-                                        <div onclick="toggleSection('quiz-${topic.id}'); setTimeout(() => { drawGraphs(); refreshMath(); }, 50);" style="font-weight:bold; display:flex; justify-content:space-between; color:#2d6a4f;">
-                                            <span>📝 ${topic.title}</span> <span>Details ▾</span>
-                                        </div>
-                                        <div id="quiz-${topic.id}" class="hidden">
-                                            <div class="quiz-area" onclick="event.stopPropagation()">
-                                             <div class="quiz-text">${quizContent}</div>
-                                             ${img} ${vid}
-                                            </div>
-                                        </div>
-                                    </div>`;
-                            });
-                            html += `</div>`; 
-                        });
-                        html += `</div>`; 
-                    });
-                    html += `</div>`; 
-                });
-                html += `</div>`; 
-            });
-            menu.innerHTML = html; // 将拼接好的代码插入页面
-        }
-
-        /**
-         * [功能：数学公式格式化]
-         * 自动识别 x^2 这类文本并包装成 MathJax 识别的 LaTeX 格式
-         */
-        function formatMath(text) {
-            if (!text) return ""; // 为空则返回
-            if (text.includes('\\(') || text.includes('$$')) return text; // 已有标识符不重复包装
-            let t = text;
-            if (t.includes('^') || t.includes('_')) { // 如果有上标或下标符号
-                t = `\\(${t}\\)`; // 自动加上 LaTeX 渲染标识符
-            }
-            return t;
-        }
-
-        /**
-         * [功能：图形绘制扫描器]
-         * 寻找所有需要画映射图的容器并执行绘制
-         */
-        function drawGraphs() {
-            window.schoolData.forEach(sub => {
-                sub.units.forEach(unit => {
-                    unit.sections.forEach(sec => {
-                        sec.points.forEach(point => {
-                            point.topics.forEach(topic => {
-                                // 扫描图 1
-                                const c1 = document.getElementById(`graph-container-${topic.id}-1`);
-                                if (topic.mappingData1 && c1 && c1.innerHTML === "") renderSingleGraph(c1, topic.mappingData1, topic.id + "m1");
-                                
-                                // 扫描图 2
-                                const c2 = document.getElementById(`graph-container-${topic.id}-2`);
-                                if (topic.mappingData2 && c2 && c2.innerHTML === "") renderSingleGraph(c2, topic.mappingData2, topic.id + "m2");
-
-                                // 扫描旧版单图
-                                const c0 = document.getElementById(`graph-container-${topic.id}`);
-                                if (topic.mappingData && c0 && c0.innerHTML === "") renderSingleGraph(c0, topic.mappingData, topic.id);
-                            });
-                        });
-                    });
-                });
-            });
-        }
-
-        /**
-         * [功能：核心绘图引擎]
-         * 使用 SVG 技术实现：1.椭圆背景 2.文字绝对居中 3.圆点固定 4.线条精准链接 (支持斜线汇聚)
-         */
-        function renderSingleGraph(container, data, tid) {
-            const rowH = 60; // 每一行的高度
-            const svgW = 320; // 图表组件的总宽度
-            const listX = data.x; // 左集合数组
-            const listY = data.y; // 右集合数组
-            const maxLen = Math.max(listX.length, listY.length); // 获取最多的元素个数
-            const svgH = maxLen * rowH + 40; // 动态计算总高度
-
-            const leftX = 60; // 左侧椭圆中心的水平坐标
-            const rightX = 260; // 右侧椭圆中心的水平坐标
-            const centerY = svgH / 2;
-
-            // 计算垂直分布的 Y 坐标数组
-            const getPointsY = (list) => {
-                const count = list.length;
-                const startY = centerY - ((count - 1) * rowH) / 2;
-                return list.map((_, i) => startY + i * rowH);
-            };
-
-            const xYCoords = getPointsY(listX);
-            const yYCoords = getPointsY(listY);
-
-            // 内部函数：生成文字和圆点层
-            const generateColumn = (list, coords, isLeft) => list.map((item, i) => {
-                const y = coords[i];
-                return `
-                    <div style="position:absolute; top:${y - rowH/2}px; width:100px; height:${rowH}px; left:${isLeft ? leftX - 105 : rightX + 5}px; display:flex; align-items:center; justify-content:${isLeft ? 'flex-end' : 'flex-start'};">
-                        <span class="math-tex" style="z-index:10; font-style:italic;">${formatMath(item)}</span>
-                    </div>
-                    <div style="position:absolute; top:${y - 3}px; left:${isLeft ? leftX + 30 : rightX - 35}px; width:6px; height:6px; background:#333; border-radius:50%; z-index:15;"></div>
-                `;
-            }).join('');
-
-            // 内部函数：生成 SVG 链接线 (支持多对一斜线汇聚)
-            const generateLines = () => {
-                const markerId = `arrow-${tid}`;
-                return listX.map((_, i) => {
-                    const yStart = xYCoords[i];
-                    // 判断连线逻辑：如果是 many-to-one，终点始终指向 Y 的第一个点
-                    const targetIdx = (data.type === "many-to-one") ? 0 : i;
-                    const yEnd = yYCoords[targetIdx] || yYCoords[0];
-                    return `<line x1="${leftX + 33}" y1="${yStart}" x2="${rightX - 35}" y2="${yEnd}" stroke="#333" stroke-width="1.5" marker-end="url(#${markerId})" />`;
-                }).join('');
-            };
-
-            // 最终将所有图层组合并插入容器
-            container.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; margin:20px 0; user-select:none; position:relative;">
-                    <div style="font-style:italic; font-size:22px; margin-bottom:5px;">f</div>
-                    <div style="position:relative; width:${svgW}px; height:${svgH}px;">
-                        <svg width="${svgW}" height="${svgH}" style="position:absolute; top:0; left:0; overflow:visible;">
-                            <defs>
-                                <marker id="arrow-${tid}" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
-                                </marker>
-                            </defs>
-                            <ellipse cx="${leftX}" cy="${centerY}" rx="55" ry="${svgH/2 - 10}" fill="rgba(52,152,219,0.05)" stroke="#3498db" stroke-width="2" />
-                            <ellipse cx="${rightX}" cy="${centerY}" rx="55" ry="${svgH/2 - 10}" fill="rgba(52,152,219,0.05)" stroke="#3498db" stroke-width="2" />
-                            ${generateLines()}
-                        </svg>
-                        ${generateColumn(listX, xYCoords, true)}
-                        ${generateColumn(listY, yYCoords, false)}
-                    </div>
-                    <div style="display:flex; width:${svgW}px; justify-content:space-around; margin-top:10px; font-weight:bold; font-size:16px;">
-                        <span>${data.xLabel || 'Set X'}</span>
-                        <span>${data.yLabel || 'Set Y'}</span>
-                    </div>
-                    <div style="margin-top:10px; font-style:italic; color:#666;">${data.caption || ''}</div>
-                </div>
-            `;
-        }
-
-        /**
-         * [功能：强制刷新公式渲染]
-         * 告诉 MathJax 重新扫描页面中新出现的公式文本
-         */
-        function refreshMath() {
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise().catch((err) => console.log("MathJax error: ", err));
-            }
-        }
-
-        /**
-         * [功能：通用折叠状态切换]
-         */
-        function toggleSection(id) {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('hidden'); // 切换 hidden 类的开启或关闭
-        }
-
-        /**
-         * [功能：视频区域独立开关]
-         */
-        function toggleVideo(topicId) {
-            const zone = document.getElementById('video-zone-' + topicId);
-            if (zone) zone.classList.toggle('hidden');
-        }
-        
-        // 页面资源加载完毕后立即执行渲染
-        window.onload = renderMenu;
+        function toggleSidebar() { document.body.classList.toggle('sidebar-open', document.getElementById('sideBar').classList.toggle('active')); }
+        function closeSidebar() { document.getElementById('sideBar').classList.remove('active'); document.body.classList.remove('sidebar-open'); }
     </script>
 </body>
 </html>
