@@ -146,10 +146,10 @@ function openSubject(i, isBack = false) {
     if (!isBack) pushState({ type: "subject", i: i });
     document.getElementById("app").innerHTML = `
         <div style="text-align:center; padding: 50px 0;">
-            <h2 style="margin-bottom:30px;">选择教学语言 / Select Language</h2>
+            <h2 style="margin-bottom:30px;">Select Language</h2>
             <div class="grid" style="max-width:600px; margin:0 auto;">
-                <div class="card" onclick="setLanguage(${i}, 'zh')"><div style="font-size:20px; font-weight:bold;">Chinese (华文)</div></div>
-                <div class="card" onclick="setLanguage(${i}, 'ms')"><div style="font-size:20px; font-weight:bold;">Malay (国文)</div></div>
+                <div class="card" onclick="setLanguage(${i}, 'zh')"><div style="font-size:20px; font-weight:bold;">Chinese</div></div>
+                <div class="card" onclick="setLanguage(${i}, 'ms')"><div style="font-size:20px; font-weight:bold;">Malay</div></div>
             </div>
         </div>
     `;
@@ -334,7 +334,7 @@ function drawMapping(containerId, data) {
         }
         
         // 🌟 普通映射标注
-        html += `<div style="position:absolute; left:${(cxX+cxY)/2}px; top:${centerY - 35}px; transform:translateX(-50%); font-weight:bold; color:${arrowColor};">\\(${fLabel}\\)</div>`;
+        html += `<div style="position:absolute; left:${(cxX+cxY)/2}px; top:${centerY - 80}px; transform:translateX(-50%); font-weight:bold; color:${arrowColor};">\\(${fLabel}\\)</div>`;
 
         if (data.type === "inverse") {
             svgHTML += `<line x1="${cxY - 45}" y1="${centerY + 20}" x2="${cxX + 50}" y2="${centerY + 20}" stroke="#e63946" stroke-width="2" marker-end="url(#${arrowRevId})" />`;
