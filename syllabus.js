@@ -34,12 +34,12 @@ window.SchoolSyllabus = [
                         name: "Revisi Cepat",
                         points: [
                             {
-                                name: "Lesson 1: 1.1 Fungsi",
-                                topics: ["f4_am_c1_q1_rc"]
+                                name: "Lesson 1: Fungsi",
+                                topics: ["f4_am_c1_q1_rc", "f4_am_c1_q2_rc", "f4_am_c1_q3_rc"]
                             },
 
                             {   name: "Lesson 2: Funngsi Gubahan",
-                                topics: ["f4_am_c1_q2_rc"]
+                                topics: ["f4_am_c1_q4_rc"]
                             },
                         ]
                     },
