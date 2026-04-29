@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#f0f9ff">
     <title>Bryan's Classroom</title>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <script>
         window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
@@ -18,47 +22,57 @@
             --text-color: #1e293b; --glass-border: 1px solid rgba(255, 255, 255, 0.5);
         }
         body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: var(--text-color); min-height: 100vh; display: flex; overflow-x: hidden; }
+        
         #sideBar { position: fixed; left: calc(-1 * var(--sidebar-width)); top: 0; height: 100%; width: var(--sidebar-width); background: var(--sidebar-bg); backdrop-filter: blur(20px); border-right: 1px solid rgba(0, 80, 160, 0.1); transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; display: flex; flex-direction: column; box-shadow: 5px 0 25px rgba(0, 0, 0, 0.05); }
         #sideBar.active { left: 0; }
         .sidebar-content { padding: 80px 20px 20px 20px; overflow-y: auto; flex: 1; }
+        
         .main-container { flex: 1; margin-left: 0; transition: margin-left 0.4s; padding: 20px; min-width: 0; }
         @media (min-width: 1024px) { body.sidebar-open .main-container { margin-left: var(--sidebar-width); } }
+        
         .topbar { position: sticky; top: 10px; height: 60px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 20px; border-radius: 15px; margin-bottom: 25px; border: var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); z-index: 900; }
         .menu-toggle { font-size: 24px; cursor: pointer; margin-right: 20px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; transition: 0.2s; color: var(--primary-color); }
         .menu-toggle:hover { background: var(--accent-color); }
+        
         .btn { padding: 8px 16px; margin-right: 10px; border-radius: 10px; border: 1px solid rgba(0, 80, 160, 0.1); background: white; color: var(--primary-color); font-weight: 600; cursor: pointer; transition: 0.2s; }
         .btn:hover { background: var(--primary-color); color: white; }
+        
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: rgba(255, 255, 255, 0.7); padding: 30px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: var(--glass-border); text-align: center; }
         .card:hover { transform: translateY(-5px); background: white; border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.05);}
+        
         .sb-item { padding: 12px 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: #475569; }
         .sb-item:hover { background: var(--accent-color); color: var(--primary-color); }
         .sb-subject-title { font-weight: bold; color: var(--primary-color); margin-top: 15px; padding-left: 10px; border-left: 4px solid var(--primary-color); cursor: pointer;}
+        
         #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: none; z-index: 950; }
         body.sidebar-open #overlay { display: block; }
+        
+        /* 底部水印 */
+        .footer-watermark {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center;
+            color: rgba(0, 80, 160, 0.2); font-size: 14px; font-weight: 600; line-height: 1.6;
+            pointer-events: none; z-index: 2000; user-select: none; width: 100%;
+        }
+        @media (max-width: 600px) { .footer-watermark { font-size: 12px; bottom: 10px; } }
     </style>
 </head>
 <body>
-    <div id="overlay" onclick="closeSidebar()"></div>
+    <div class="footer-watermark">The Usage Rights Belong To Bryan<br>Cannot Be Shared Without Permission</div>
+    <div id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
     <div id="sideBar"><div class="sidebar-content" id="sidebarNav"></div></div>
-
     <div class="main-container">
         <div class="topbar">
-            <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+            <div class="menu-toggle" onclick="toggleSidebar()" role="button" aria-label="Toggle Menu" tabindex="0">☰</div>
             <button class="btn" onclick="goHome()">🏠 Home</button>
-            <button class="btn" onclick="goBack()">🔙 Back</button>
-            <div id="pathDisplay" style="margin-left: auto; font-size: 14px; color: #64748b;"></div>
+            <button class="btn" onclick="goBack()">🔙 Back</button>            
         </div>
         <div id="app"></div>
     </div>
-
     <script src="f4_addmath_zh.js"></script>
     <script src="f4_addmath_my.js"></script>
-    
     <script src="syllabus.js"></script>
-
     <script src="engine.js"></script>
-
     <script>
         function toggleSidebar() { document.body.classList.toggle('sidebar-open', document.getElementById('sideBar').classList.toggle('active')); }
         function closeSidebar() { document.getElementById('sideBar').classList.remove('active'); document.body.classList.remove('sidebar-open'); }
